@@ -1,0 +1,7 @@
+services:
+  app:
+    build:
+      context: ./flight-diary-frontend
+      dockerfile: dev.Dockerfile
+      target: development
+    container_name: flight-diary-frontend
