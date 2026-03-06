@@ -5,8 +5,8 @@ services:
       dockerfile: dev.Dockerfile
       target: development
     container_name: flight-diary-frontend-dev
-    ports:
-      - '${VITE_PORT:-5173}:5173'
+    # ports:
+    #   - '${VITE_PORT:-5173}:5173'
     volumes:
       - ./flight-diary-frontend/src:/usr/src/app/src:ro
       - ./flight-diary-frontend/package.json:/usr/src/app/package.json
@@ -18,8 +18,19 @@ services:
       dockerfile: dev.Dockerfile
       target: development
     container_name: flight-diary-backend-dev
-    ports:
-      - '${BACKEND_PORT:-3000}:3000'
+    # ports:
+    #   - '${BACKEND_PORT:-3000}:3000'
     volumes:
       - ./flight-diary-backend/src:/usr/src/app/src:ro
       - ./flight-diary-backend/package.json:/usr/src/app/package.json
+
+  nginx:
+    image: nginx:trixie-perl
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - '8080:80'
+    container_name: flight-diary-proxy-dev
+    depends_on:
+      - app
+      - server
